@@ -1,10 +1,10 @@
 import unittest
 
-from ..point import Point
+from python.point import Point
 
 
 class PointTest(unittest.TestCase):
-    def test_init_bad(self):
+    def test_init(self):
         with self.assertRaises(TypeError):
             Point(None)
 

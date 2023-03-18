@@ -1,19 +1,36 @@
 import unittest
 
-from ..point import Point
+from python.point import Point
 
-from ..distance import distance
+from python.distance import distance
 
 
 class TestDistance(unittest.TestCase):
-    def test_distance_2d(self):
-
+    def test_distance_0d(self):
+        p1 = Point()
+        p2 = Point()
+        p3 = Point(1)
         with self.assertRaises(ValueError):
-            p0 = Point()
-            p1 = Point(1)
-            distance(p0, p1)
+            distance(p1, p2)
+        with self.assertRaises(ValueError):
+            distance(p1, p3)
 
-        # 3 4 5 triangle should nail it.
+    def test_diff_dimensions(self):
+        p0 = Point(1)
+        p1 = Point(1, 2)
+        with self.assertRaises(ValueError):
+            distance(p0, p1)
+        with self.assertRaises(ValueError):
+            distance(p1, p0)
+
+    def test_distance_1d(self):
+        p1 = Point(1)
+        p2 = Point(3)
+        self.assertEqual(distance(p1, p2), 2)
+        self.assertEqual(distance(p2, p1), 2)
+
+    def test_distance_2d(self):
+        # 3-4-5 triangle should nail it.
         right_triangle_0 = Point(0, 0)
         right_triangle_1 = Point(3, 0)
         right_triangle_2 = Point(3, 4)

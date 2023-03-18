@@ -1,2 +1,1 @@
-from . import distance
-from . import point
+from python.distance import Point
