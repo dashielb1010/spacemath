@@ -2,9 +2,17 @@ from .point import Point
 
 
 class Object(object):
-    def __init__(self, mass=0.0, location=Point()):
+    def __init__(self, mass=0.0, location=Point(), _id=None):
         self._mass = mass
         self._location = location
+        if _id is None:
+            self._id = self.__hash__()
+        else:
+            self._id = _id
+
+    @property
+    def id(self):
+        return self._id
 
     @property
     def mass(self):
