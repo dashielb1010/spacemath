@@ -28,4 +28,6 @@ class Object(object):
 
     @location.setter
     def location(self, point):
+        if not isinstance(point, Point):
+            raise ValueError("Location must be instance of spacemath.point.Point, not %s" % type(point))
         self._location = point

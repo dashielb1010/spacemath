@@ -11,7 +11,9 @@ def distance(p1, p2):
         raise ValueError("Zero dimensional points cannot be used in distance calculations.")
 
     if p1.num_dimensions != p2.num_dimensions:
-        raise ValueError("Cannot find the distance between spacemath.point.Point()s with different .num_dimensions")
+        raise ValueError(
+            "Cannot find the distance between spacemath.point.Point()s with different number of dimensions."
+        )
 
     # Compare vector components by subtraction, square the results, and collect them.
     diff_sqs = []

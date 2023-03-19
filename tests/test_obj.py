@@ -25,18 +25,21 @@ class TestObject(unittest.TestCase):
         )
         self.assertEqual(obj2.location, point2)
 
+        with self.assertRaises(ValueError):
+            obj2.location = (1, 2, 3)
+
     def test_obj_mass(self):
         obj = Object()
         # Test mass property
         mass = 1.0
         obj.mass = mass
         self.assertEqual(obj.mass, mass)
+        self.assertIsInstance(obj.mass, float)
 
         obj2 = Object(
             mass=10,  # pass int to make sure it's later float.
         )
         self.assertEqual(obj2.mass, 10.0)
-        self.assertTrue(isinstance(obj.mass, float))
 
 
 if __name__ == '__main__':
