@@ -1,6 +1,6 @@
 import unittest
 
-from python.point import Point
+from python.point import Point, origin
 
 
 class PointTest(unittest.TestCase):
@@ -38,6 +38,22 @@ class PointTest(unittest.TestCase):
         loc = p.location
         loc[0] = 10
         self.assertNotEqual(p.location, loc)
+
+    def test_eq(self):
+        p0 = Point(0)
+        p1 = Point(0)
+        self.assertEqual(p0, p1)
+
+        p2 = Point(0, 0)
+        self.assertNotEqual(p0, p2)
+        p3 = Point(0, 1)
+        self.assertNotEqual(p2, p3)
+        p4 = Point(0, 1.0)
+        self.assertEqual(p3, p4)
+
+    def test_origin(self):
+        p = Point(0, 0)
+        self.assertEqual(origin(), p)
 
 
 if __name__ == '__main__':

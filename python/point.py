@@ -21,3 +21,15 @@ class Point(object):
     def location(self):
         return list(self._location)
 
+    def __eq__(self, other):
+        if not isinstance(other, Point):
+            return False
+
+        if not self.num_dimensions == other.num_dimensions:
+            return False
+
+        return all([a == b for a, b in zip(self.location, other.location)])
+
+
+def origin():
+    return Point(0, 0)

@@ -1,6 +1,7 @@
 import unittest
 from python.obj import Object
-from python.point import Point
+from python.point import Point, origin
+from python.force import Force
 
 
 class TestObject(unittest.TestCase):
