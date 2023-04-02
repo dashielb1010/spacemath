@@ -8,8 +8,7 @@ from python.point import origin, Point
 
 class TestForce(unittest.TestCase):
     def test_init(self):
-        p0 = origin()
-        p1 = Point(1, 0)
-        f = Force(p0, p1)
+        point = Point(1, 0)
+        f = Force(point)
         self.assertIsInstance(f, Vector)
 

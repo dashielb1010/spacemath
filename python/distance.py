@@ -1,12 +1,7 @@
 import math
 
-from .point import Point
-
 
 def distance(p1, p2):
-    if not isinstance(p1, Point) or not isinstance(p2, Point):
-        raise ValueError("Distance calculation requires spacemath.point.Point(), not %s and %s" % (type(p1), type(p2)))
-
     if 0 in (p1.num_dimensions, p2.num_dimensions):
         raise ValueError("Zero dimensional points cannot be used in distance calculations.")
 

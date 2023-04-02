@@ -31,5 +31,6 @@ class Point(object):
         return all([a == b for a, b in zip(self.location, other.location)])
 
 
-def origin():
-    return Point(0, 0)
+def origin(n_dimensions):
+    location = [0] * n_dimensions
+    return Point(*location)

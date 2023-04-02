@@ -1,7 +1,7 @@
 import unittest
 
 from python.simulation import Simulation
-from python.obj import Object
+from python.body import Body
 from python.force import Force
 from python.point import Point, origin
 
@@ -14,48 +14,33 @@ class TestSimulation(unittest.TestCase):
         with self.assertRaises(ValueError):
             Simulation(t_inc="ham")
 
-    def test_sim_time(self):
-        sim = Simulation()
-        self.assertTrue(hasattr(sim, "time"))
-        self.assertIsInstance(sim.time, float)
+    def test_time(self):
+        sim0 = Simulation()
+        self.assertTrue(hasattr(sim0, "time"))
+        self.assertIsInstance(sim0.time, float)
 
-    def test_sim_objects(self):
+        t0 = 2
+        t_inc = 3
+        num_incs = 4
+        sim1 = Simulation(t=t0, t_inc=t_inc)
+        sim1.run(num_incs)
+        t1 = t0 + t_inc * num_incs
+        self.assertEqual(sim1.time, t1)
+
+    def test_objects(self):
         sim = Simulation()
         self.assertTrue(hasattr(sim, "objects"))
         self.assertIsInstance(sim.objects, dict)
 
-    def test_sim_add_objects(self):
+    def test_add_objects(self):
         sim = Simulation()
         with self.assertRaises(ValueError):
             sim.add_object(1)
 
         with self.assertRaises(ValueError):
-            obj = Object()
+            obj = Body()
             sim.add_object(obj)
             sim.add_object(obj)
-
-    def test_forces(self):
-        sim = Simulation()
-        obj = Object(mass=1)
-        sim.add_object(obj)
-
-        with self.assertRaises(ValueError):
-            sim.apply_force(123, 123)
-
-        with self.assertRaises(ValueError):
-            sim.apply_force(obj, 123)
-
-        f = Force(origin(), Point(1, 0))
-        with self.assertRaises(ValueError):
-            sim.apply_force(123, f)
-
-        obj2 = Object()
-        with self.assertRaises(ValueError):
-            sim.apply_force(obj2, f)
-
-        self.assertEqual(sim.get_forces(obj), [])
-        sim.apply_force(obj, f)
-        self.assertIn(f, sim.get_forces(obj))
 
     def test_increment(self):
         sim = Simulation()
@@ -82,6 +67,18 @@ class TestSimulation(unittest.TestCase):
 
         with self.assertRaises(ValueError):
             sim.run(1.0)
+
+    def test_run(self):
+        sim = Simulation()
+        sim.run(1)
+        self.assertEqual(sim.time, 1.0)
+
+        p0 = origin(2)
+
+        jeff = Body(mass=1, location=p0)
+        sim.add_object(jeff)
+        force_jeff = Force(Point(1, 0))
+        jeff.apply_forces(force_jeff)
 
 
 if __name__ == '__main__':

@@ -1,4 +1,4 @@
-from .obj import Object
+from .body import Body
 from .force import Force
 
 
@@ -7,7 +7,7 @@ class Simulation(object):
         self._t = float(t)
         self._t_inc = float(t_inc)
         self._objects = dict()
-        self._forces_applied = dict()
+        self._force = dict()
 
     @property
     def time(self):
@@ -26,41 +26,19 @@ class Simulation(object):
         return self._objects
 
     def add_object(self, obj):
-        if not isinstance(obj, Object):
-            raise ValueError("Simulation objects must be instance of `obj.Object`, not %s" % type(obj))
+        if not isinstance(obj, Body):
+            raise ValueError("Simulation objects must be instance of %s, not %s" % (Body.__name__, type(obj)))
 
         if obj.id in self._objects:
             raise ValueError("Cannot add the same object to a simulation twice.")
 
         self._objects[obj.id] = obj
-        self._forces_applied[obj.id] = []
-
-    def apply_force(self, obj, force):
-        if not isinstance(obj, Object):
-            raise ValueError("Object required as first argument, not %s." % type(obj))
-
-        if not isinstance(force, Force):
-            raise ValueError("Force type object is required when applying force, not %s." % type(force))
-
-        if obj.id not in self._objects:
-            raise ValueError("%s has not been added to simulation." % obj)
-
-        self._forces_applied[obj.id].append(force)
-
-    def get_forces(self, obj):
-        if not isinstance(obj, Object):
-            raise ValueError("Input requires Object type, not %s." % type(obj))
-
-        if obj.id not in self._objects:
-            raise ValueError("%s has not been added to simulation." % obj)
-
-        return self._forces_applied[obj.id]
 
     def run(self, increments=1):
         if not isinstance(increments, int):
             raise ValueError("Argument increments requires %s not %s." % (int, type(increments)))
         for i in range(increments):
-            self._run()
+            self._run_step()
 
-    def _run(self):
+    def _run_step(self):
         self._t += self._t_inc
